@@ -9,6 +9,7 @@
         xmlns:helpers="clr-namespace:Toastify.Helpers"
         xmlns:markup="clr-namespace:Toastify.Helpers.Markup"
         xmlns:viewmodel="clr-namespace:Toastify.ViewModel"
+        xmlns:controls="clr-namespace:Toastify.ToastLayout.Controls"
         mc:Ignorable="d"
         x:Class="Toastify.View.SettingsView"
         Title="Toastify - Settings" Height="570" Width="580" ResizeMode="NoResize" Icon="/Toastify;component/Resources/ToastifyIcon.ico" Closed="Window_Closed">
@@ -233,6 +234,20 @@
                                         </Grid>
                                     </Grid>
                                 </StackPanel>
+                            </Grid>
+                        </TabItem>
+
+                        <!-- ROWS -->
+                        <TabItem Header="Rows">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,10,0,0">
+                                    <Label VerticalContentAlignment="Center">Preset:</Label>
+                                    <ComboBox VerticalContentAlignment="Center" Margin="8,0,0,0" Name="ComboToastRowsPreset"
+                                              ItemsSource="{Binding Source={}}"
+                                              SelectedValue="" SelectedValuePath="Value" Width="200"/>
+                                    <Button Command="{Binding Path=SaveCommand}" Margin="8,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="8,3">Save Current Layout</Button>
+                                </StackPanel>
+                                <controls:PresetEditor Margin="12,46,0,0"/>
                             </Grid>
                         </TabItem>
 

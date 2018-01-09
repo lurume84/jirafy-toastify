@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Toastify.ToastLayout.Controls.PresetEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Toastify.ToastLayout.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance controls:PresetEditor}">
+    <ScrollViewer HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Disabled">
+        <ListView x:Name="RowsListView" BorderThickness="1" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ItemsSource="{Binding Path=Rows, Mode=TwoWay}">
+            <ListView.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}" />
+            </ListView.Background>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    <Setter Property="BorderBrush" Value="#FFABADB3" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </ScrollViewer>
+</UserControl>

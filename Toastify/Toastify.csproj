@@ -158,14 +158,32 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Analytics.g.cs</LastGenOutput>
     </Content>
+    <Compile Include="src\ToastLayout\Rows\OtherRow.cs" />
+    <Compile Include="src\ToastLayout\Preset.cs" />
+    <Compile Include="src\ToastLayout\Rows\ProgressBarRow.cs" />
+    <Compile Include="src\ToastLayout\Rows\Row.cs" />
     <Compile Include="src\Services\Analytics.g.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Analytics.g.tt</DependentUpon>
     </Compile>
+    <Compile Include="src\ToastLayout\Rows\TextRow.cs" />
+    <Compile Include="src\ToastLayout\Rows\ArtistRow.cs" />
+    <Compile Include="src\ToastLayout\Rows\AlbumRow.cs" />
+    <Compile Include="src\ToastLayout\Rows\TitleRow.cs" />
     <Compile Include="src\ViewModel\AboutViewModel.cs" />
     <Compile Include="src\ViewModel\SettingsViewModel.cs" />
     <Compile Include="src\ViewModel\ToastViewModel.cs" />
+    <Compile Include="src\ToastLayout\Controls\AddNewRowItem.xaml.cs">
+      <DependentUpon>AddNewRowItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ToastLayout\Controls\BaseRowEditor.cs" />
+    <Compile Include="src\ToastLayout\Controls\RowEditor.xaml.cs">
+      <DependentUpon>RowEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ToastLayout\Controls\PresetEditor.xaml.cs">
+      <DependentUpon>PresetEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Condition="'$(Configuration)' == 'Windows %28Debug%29'" Include="src\View\DebugView.xaml.cs">
       <DependentUpon>DebugView.xaml</DependentUpon>
     </Compile>
@@ -175,6 +193,18 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="src\ToastLayout\Controls\AddNewRowItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ToastLayout\Controls\RowEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ToastLayout\Controls\PresetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Condition="'$(Configuration)' == 'Windows %28Debug%29'" Include="src\View\DebugView.xaml">
       <SubType>Designer</SubType>
