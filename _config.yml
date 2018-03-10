@@ -1,0 +1,8 @@
+title: Toastify
+description: Toastify adds global hotkeys and toast notifications to Spotify
+google_analytics: UA-61123985-1
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
