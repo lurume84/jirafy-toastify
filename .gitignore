@@ -1,3 +1,7 @@
 **/.vs/*
 **/packages/*
+
+# Metadata and auto-generated files
 Gemfile\.lock
+.jekyll-metadata
+_site/*
