@@ -34,6 +34,6 @@ This application uses [SpotifyAPI-NET][SpotifyAPI-NET].
 [//]: # (Links)
 
 [toastify@github]: <{{ site.github.repository_url }}>
-[toastify-showcase]: <https://raw.githubusercontent.com/{{ site.repository }}/gh-pages/images/toastify-showcase.png>
+[toastify-showcase]: <https://raw.githubusercontent.com/{{ site.repository }}/gh-pages/img/toastify-showcase.png>
 [issues]: <{{ site.github.repository_url }}/issues>
 [SpotifyAPI-NET]: <https://github.com/JohnnyCrazy/SpotifyAPI-NET>
