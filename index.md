@@ -1,22 +1,39 @@
-### Welcome to GitHub Pages.
-This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:
+![toastify-showcase][toastify-showcase]
 
-```
-$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-```
+Toastify adds global hotkeys and toast notifications to Spotify.
 
-If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.
+This application uses [SpotifyAPI-NET][SpotifyAPI-NET].
 
-### Designer Templates
-We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.
+## Features
+* Display the current playing track in a customizable toast-like popup
+* Global hotkeys for media actions (Play/Pause, Next/Previous track, Volume Up/Down, Mute, Seek Forward/Backward)
+* :heavy_exclamation_mark: Compatible with the Microsoft Store version of Spotify
 
-### Rather Drive Stick?
-If you prefer to not use the automatic generator, push a branch named `gh-pages` to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.
+## Requirements
+* Windows (7, 8/8.1, 10)
+* .NET Framework 4.5.*
+* Spotify
 
-### Authors and Contributors
-You can @mention a GitHub username to generate a link to their profile. The resulting `<a>` element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (@defunkt), PJ Hyett (@pjhyett), and Tom Preston-Werner (@mojombo) founded GitHub.
+## Installation
+* Download the latest release of Toastify from <a id="inst-latest" href="{{ site.github.repository_url }}/releases/latest">here</a>.
+* Run "*ToastifyInstaller.exe*" to install Toastify.
 
-### Support or Contact
-Having trouble with Pages? Check out the documentation at https://help.github.com/pages or contact support@github.com and we’ll help you sort it out.
+**Note**: If you are updating from the original version of Toastify (v1.8.3), be sure to uninstall it completely before installing this version. You should also remove any file from the following directories, if they exist:
+- "*%LocalAppData%\Toastify*" (i.e. "*C:\Users\\{UserName}\AppData\Local\Toastify*")
+- "*%AppData%\Toastify*" (i.e. "*C:\Users\\{UserName}\AppData\Roaming\Toastify*")
+
+## Notices
+* Toastify is **not** a Spotify **replacement**. You need both running at the same time.
+* **Windows 10**: In the latest versions of Windows, SmartScreen will probably prevent the installer from starting, because it is not signed.  
+  You have two options: either *Don't run* the installer and forget about Toastify, or click on *More info* and *Run anyway*.  
+  Whatever is your choice, I strongly advise you to **not** disable Windows SmartScreen — its warnings are meaningful.  
+
+  If you have any concerns, feel free to take a look at the [code][toastify@github] (it's free :wink:) and ask questions in the [issues][issues] section.
+
+
+[//]: # (Links)
+
+[toastify@github]: <{{ site.github.repository_url }}>
+[toastify-showcase]: <https://raw.githubusercontent.com/{{ site.repository }}/gh-pages/images/toastify-showcase.png>
+[issues]: <{{ site.github.repository_url }}/issues>
+[SpotifyAPI-NET]: <https://github.com/JohnnyCrazy/SpotifyAPI-NET>
