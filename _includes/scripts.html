@@ -1,0 +1,37 @@
+{% if site.google_analytics %}
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '{{ site.google_analytics }}', 'auto');
+  ga('send', 'pageview');
+</script>
+{% endif %}
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+  // Emojify
+  emojify();
+
+  // Get latest GitHub release
+  getLatestRelease('{{ site.repository }}', function(data) {
+      var assets = data['assets'];
+      if (typeof assets != "undefined" && assets != null && assets.length != null && assets.length > 0) {
+          var dlUrl = assets[0]['browser_download_url'];
+          if (dlUrl.endsWith('.exe')) {
+              // Update the latest release download at the top of the page
+              if ($('.release_download_link')[0] !== undefined) {
+                  $('.release_download_link')[0].href = dlUrl;
+              }
+              
+              // Update the latest release download link in the 'Installation' section
+              if ($('#inst-latest')[0] !== undefined) {
+                  $('#inst-latest')[0].href = dlUrl;
+              }
+          }
+      }
+  });
+
+  // Replace email
+  generateMailTo();
+</script>

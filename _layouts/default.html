@@ -17,24 +17,8 @@
 
 <body>
   <!-- HEADER -->
-  <div id="header_wrap" class="outer">
-    <header class="inner">
-      <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
-
-      <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
-      <span id="project_fork">forked from <a href="{{ site.github.forked_repo_url }}">nachmore/toastify</a></span>
-      
-      <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-
-      {% if site.show_downloads %}
-        <section id="downloads">
-          <a class="zip_download_link" href="{{ site.github.repository_url }}/zipball/master">Download the project as a .zip file</a>
-          <a class="release_download_link" href="{{ site.github.repository_url }}/releases/latest">Download the latest release</a>
-        </section>
-      {% endif %}
-    </header>
-  </div>
-
+  {% include header.html %}
+  
   <!-- MAIN CONTENT -->
   <div id="main_content_wrap" class="outer">
     <section id="main_content" class="inner">
@@ -42,52 +26,10 @@
     </section>
   </div>
 
-  <!-- FOOTER  -->
-  <div id="footer_wrap" class="outer">
-    <footer class="inner">
-      {% if site.github.is_project_page %}
-        <p class="copyright">{{ site.title | default: site.github.repository_name }} is maintained by 
-          <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>
-          <span class="font12">(<email data-local="work.aleab" data-domain="gmail.com"/>)</span>
-        </p>
-      {% endif %}
-      <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-    </footer>
-  </div>
+  <!-- FOOTER -->
+  {% include footer.html %}
 
   <!-- SCRIPTS -->
-  {% if site.google_analytics %}
-    <script type="text/javascript">
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', '{{ site.google_analytics }}', 'auto');
-      ga('send', 'pageview');
-    </script>
-  {% endif %}
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script type="text/javascript">
-    // Emojify
-    emojify();
-
-    // Get latest GitHub release
-    getLatestRelease('{{ site.repository }}', function(data) {
-        var assets = data['assets'];
-        if (typeof assets != "undefined" && assets != null && assets.length != null && assets.length > 0) {
-            var dlUrl = assets[0]['browser_download_url'];
-            if (dlUrl.endsWith('.exe')) {
-                // Update the latest release download at the top of the page
-                $('.release_download_link')[0].href = dlUrl;
-                
-                // Update the latest release download link in the 'Installation' section
-                $('#inst-latest')[0].href = dlUrl;
-            }
-        }
-    });
-
-    // Replace email
-    generateMailTo();
-  </script>
+  {% include scripts.html %}
 </body>
 </html>

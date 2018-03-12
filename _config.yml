@@ -1,9 +1,12 @@
 title: Toastify
 repository: aleab/toastify
 
+encoding: utf-8
+markdown: kramdown
+theme: jekyll-theme-slate
+
 google_analytics: UA-105184643-4
 show_downloads: true
-theme: jekyll-theme-slate
 
 github:
   owner_url: https://github.com/aleab

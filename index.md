@@ -30,6 +30,26 @@ This application uses [SpotifyAPI-NET][SpotifyAPI-NET].
 
   If you have any concerns, feel free to take a look at the [code][toastify@github] (it's free :wink:) and ask questions in the [issues][issues] section.
 
+## Donations
+I dedicate most of my free time to improving and keeping Toastify alive. Although absolutely not necessary, if you'd like to support me and the project, you can buy me a coffee! :coffee:
+
+<div id="donation-links-container">
+  <div id="donation-kofi">
+    <script type="text/javascript" src="https://ko-fi.com/widgets/widget_2.js"></script>
+    <script type="text/javascript">kofiwidget2.init('Buy Me a Coffee', '#46b798', 'S6S8AH23');kofiwidget2.draw();</script>
+  </div>
+  
+  <span class="unselectable">OR</span>
+  
+  <div id="donation-paypal">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="NEXYAS3KL2AH8">
+      <input type="image" src="https://vgy.me/MZ6Iea.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" title="Support Toastify through PayPal">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+  </div>
+</div>
 
 [//]: # (Links)
 
