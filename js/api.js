@@ -14,9 +14,13 @@ function getLatestRelease(repository, callback)
 }
 
 /* https://forismatic.com/en/api/ */
-function getRandomQuote(key, callback)
+function getRandomQuote(seed, doneCallback)
 {
-    if (key === undefined || key == null)
-        key = Math.floor(Math.random() * 100000);
-    $.getJSON('https://api.forismatic.com/api/1.0/?lang=en&format=json&method=getQuote&key=' + key, callback);
+    if (seed === undefined || seed == null)
+        seed = Math.floor(Math.random() * 100000);
+    $.ajax({
+        method: 'GET',
+        url: 'https://api.forismatic.com/api/1.0/?lang=en&method=getQuote&key=' + seed + '&format=jsonp&jsonp=getRandomQuote_Callback',
+        dataType: 'jsonp'
+    }).always(doneCallback);
 }

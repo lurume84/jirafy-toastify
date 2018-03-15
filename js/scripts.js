@@ -19,6 +19,13 @@ function emojify()
     });
 }
 
+function correctString(str)
+{
+    return str.trim()
+              .replace(/(.*\.)([A-Z].*)/g, '$1 $2')
+              .replace(/(.*,)(\S+.*)/ig, '$1 $2');
+}
+
 function generateMailTo()
 {
     $('email').each(function(index) {

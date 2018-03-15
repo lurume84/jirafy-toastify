@@ -131,7 +131,10 @@ h1#project_title > a:focus {
 /************/
 /*   Text   */
 /************/
+small { font-size: 12px; }
 .font12 { font-size: 12px; }
+
+.light { font-weight: 200; }
 
 .unselectable {
     -webkit-user-select: none;
@@ -178,15 +181,17 @@ h1#project_title > a:focus {
     justify-content: center;
     align-items: center;
 
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
     text-align: center;
-    font-family: 'Bree Serif', Helvetica, sans-serif, serif;
 }
 
 #ty {
     display: flex;
+    padding: 0 10px;
     padding-bottom: calc(0.22 * (100vh - 70px - 2px));
     color: #DA0000;
     
+    font-family: 'Bree Serif', Helvetica, sans-serif, serif;
     font-size: calc(4vw + 4vh + 2vmin); /* https://codepen.io/CrocoDillon/pen/jgmwt */
     @include strokeAndShadow(3, black, -6px 4px 10px #B3B3B3);
 }
@@ -201,13 +206,34 @@ h1#project_title > a:focus {
     }
 }
 
-#ty_container #quote {
+#ty_container #quote_container {
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-end;
     padding: 0 10px;
+}
+
+#ty_container #quote_container > *:first-child {
+    padding-bottom: 5px;
+}
+#ty_container #quote_container > *:last-child {
+    padding-top: 8px;
+}
+
+#ty_container #quote_container > .message {
+    align-self: flex-start;
+    font-family: 'Bree Serif', serif;
+}
+
+#ty_container #quote {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    padding-left: 1.3em;
+    
     text-align: end;
     color: #525252;
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
     text-shadow: #d4cbcb -2px 1px 5px;
 }
 @media screen and (max-width: 480px) {
@@ -220,7 +246,7 @@ h1#project_title > a:focus {
     font-style: italic;
 }
 #ty_container #quote > *:nth-child(2) {
-    padding-top: 5px;
+    padding-top: 2px;
     padding-right: 0.5em;
 }
 

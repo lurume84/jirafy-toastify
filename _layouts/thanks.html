@@ -8,7 +8,7 @@
   <meta name="author" content="{{ site.github.owner_name }}">
   <title>Thank You</title>
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Lato:400i|Source+Sans+Pro:400" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/custom.css">
   <script src="./js/scripts.js"></script>
@@ -23,7 +23,11 @@
     <section id="main_content" class="inner no-padding">
       <div id="ty_container">
         <span id="ty" class="unselectable not-visible">Thank You!</span>
-        <div id="quote" class="unselectable not-visible"></div>
+        <div id="quote_container" class="unselectable not-visible">
+          <span class="message">Here's a random quote for you:</span>
+          <div id="quote"></div>
+          <small class="light">(powered by <a id="quote_link" href="https://forismatic.com/en/">forismatic.com</a>)</small>
+        </div>
       </div>
     </section>
   </div>
@@ -33,22 +37,41 @@
     jQuery.fx.interval = 22;
     spawnHearts();
 
-    getRandomQuote(null, function(quote) {
-        var jqQuote = $('#ty_container #quote');
+    getRandomQuote(null, function() {
+        $('#ty_container #ty').hide(0).removeClass('not-visible').fadeIn(700);
+    });
+
+    function getRandomQuote_Callback(quote)
+    {
+        var jqQuoteContainer = $('#quote_container');
+        var jqQuote = $('#quote');
         jqQuote.empty();
 
         var el = document.createElement('span');
-        $(el).text('“' + quote.quoteText + '”');
+        el.innerHTML = '\u201C' + correctString(quote.quoteText) + '\u201D';
         jqQuote.append(el);
 
         el = document.createElement('span');
-        $(el).text('- ' + quote.quoteAuthor);
+        el.innerHTML = '~ ';
+        var author = quote.quoteAuthor.trim();
+        if (author !== undefined && author) {
+            var a = document.createElement('a');
+            a.innerHTML = author;
+            a.href = encodeURI('https://en.wikipedia.org/wiki/' + author);
+            $(el).append(a);
+        } else {
+            el.innerHTML += '[Unknown]';
+        }
         jqQuote.append(el);
 
-        jqQuote.delay(2000).hide().removeClass('not-visible').fadeIn(800);
-    });
+        if (quote.quoteLink !== undefined && quote.quoteLink) {
+            $('#quote_container #quote_link')[0].href = quote.quoteLink;
+        }
 
-    $('#ty_container #ty').hide().removeClass('not-visible').fadeIn(700);
+        setTimeout(function() {
+            jqQuoteContainer.hide(0).removeClass('not-visible').fadeIn(800);
+        }, 800);
+    }
   </script>
 </body>
 </html>
