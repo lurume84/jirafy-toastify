@@ -1,3 +1,3 @@
 call bundle install
 echo.
-bundle exec jekyll serve
+bundle exec jekyll serve -b /toastify
