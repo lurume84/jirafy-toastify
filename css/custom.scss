@@ -1,0 +1,231 @@
+---
+---
+
+@import "custom.mixins";
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+a:hover, a:focus {
+    font-weight: unset;
+}
+
+.inner {
+    max-width: 800px;
+}
+
+/**************/
+/*   Header   */
+/**************/
+
+#header_wrap.small_header {
+    height: 70px;
+}
+
+#header_wrap.small_header .inner {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 3px 0 0 15px;
+    max-width: unset;
+}
+
+#header_wrap #title {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.toastify_logo {
+    display: inline-block;
+    margin-right: 10px;
+    width: 56px;
+    height: 56px;
+    background: center / contain no-repeat url(../img/logo.png);
+}
+
+#project_title {
+    display: inline-block;
+    padding-right: 6px;
+}
+h1#project_title > a {
+    color: unset;
+}
+h1#project_title > a:hover,
+h1#project_title > a:focus {
+    text-decoration: unset;
+}
+
+#project_fork {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+#downloads:last-child {
+    margin-left: 10px;
+}
+
+/* Latest Release download image at the top */
+.release_download_link {
+    display: block;
+    float: right;
+    width: 90px;
+    height: 70px;
+    text-indent: -5000px;
+    overflow: hidden;
+    background: url(../img/sprite_release_download.png) no-repeat bottom left;
+}
+.release_download_link:hover {
+    background: url(../img/sprite_release_download.png) no-repeat top left;
+}
+
+/* Donations */
+#donation-links-container {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#donation-links-container > * {
+    padding-right: 5px;
+}
+
+#donation-kofi .btn-container {
+    min-width: unset;
+}
+
+#donation-paypal form {
+    background: unset;
+    padding: unset;
+    display: flex;
+}
+
+/* g-emoji */
+.emoji {
+    font-family: "Apple Color Emoji", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 20px;
+    vertical-align: middle;
+}
+
+/* Kofi */
+.kofitext img.kofiimg {
+    box-shadow: unset;
+    max-width: unset;
+    padding: unset;
+}
+
+/************/
+/*   Text   */
+/************/
+.font12 { font-size: 12px; }
+
+.unselectable {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/*******************/
+/* Display classes */
+/*******************/
+.flex_baseline {
+    display: flex;
+    align-items: baseline;
+}
+.flexIn_baseline {
+    display: flex;
+    align-items: baseline;
+}
+
+.hidden {
+    display: none !important;
+}
+.not-visible {
+    visibility: hidden !important;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+/*==================*/
+/* 'Thank You' Page */
+/*==================*/
+#main_content #ty_container {
+    width: 100%;
+    height: calc(100vh - 70px - 2px); /* 100% Screen height - header height - 2*border */
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-family: 'Bree Serif', Helvetica, sans-serif, serif;
+}
+
+#ty {
+    display: flex;
+    padding-bottom: calc(0.22 * (100vh - 70px - 2px));
+    color: #DA0000;
+    
+    font-size: calc(4vw + 4vh + 2vmin); /* https://codepen.io/CrocoDillon/pen/jgmwt */
+    @include strokeAndShadow(3, black, -6px 4px 10px #B3B3B3);
+}
+@media screen and (max-width: 1443px) {
+    #ty {
+        @include strokeAndShadow(2, black, -4px 2px 8px #B3B3B3);
+    }
+}
+@media screen and (max-width: 767px) {
+    #ty {
+        @include strokeAndShadow(1, black, -3px 1px 6px #B3B3B3);
+    }
+}
+
+#ty_container #quote {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    padding: 0 10px;
+    text-align: end;
+    color: #525252;
+    text-shadow: #d4cbcb -2px 1px 5px;
+}
+@media screen and (max-width: 480px) {
+    #ty_container #quote {
+        text-shadow: #d4cbcb -1px 0px 3px;
+    }
+}
+
+#ty_container #quote > *:nth-child(1) {
+    font-style: italic;
+}
+#ty_container #quote > *:nth-child(2) {
+    padding-top: 5px;
+    padding-right: 0.5em;
+}
+
+.ty-heart {
+    position: absolute;
+    display: block;
+    bottom: 0px;
+}
