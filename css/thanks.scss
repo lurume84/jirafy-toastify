@@ -1,0 +1,97 @@
+---
+---
+
+@import "custom.mixins";
+
+/*==================*/
+/* 'Thank You' Page */
+/*==================*/
+
+#main_content #ty_container {
+    width: 100%;
+    height: calc(100vh - 70px - 2px); /* 100% Screen height - header height - 2*border */
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    text-align: center;
+}
+
+#ty {
+    display: flex;
+    padding: 0 10px;
+    padding-bottom: calc(0.22 * (100vh - 70px - 2px));
+    color: #DA0000;
+    
+    font-family: 'Bree Serif', Helvetica, sans-serif, serif;
+    font-size: calc(4vw + 4vh + 2vmin); /* https://codepen.io/CrocoDillon/pen/jgmwt */
+    @include strokeAndShadow(3, black, -6px 4px 10px #B3B3B3);
+}
+@media screen and (max-width: 1443px) {
+    #ty {
+        @include strokeAndShadow(2, black, -4px 2px 8px #B3B3B3);
+    }
+}
+@media screen and (max-width: 767px) {
+    #ty {
+        @include strokeAndShadow(1, black, -3px 1px 6px #B3B3B3);
+    }
+}
+
+#ty_container #quote_container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    padding: 0 10px;
+}
+
+#ty_container #quote_container > *:first-child {
+    padding-bottom: 5px;
+}
+#ty_container #quote_container > *:last-child {
+    padding-top: 8px;
+}
+
+#ty_container #quote_container > .message {
+    align-self: flex-start;
+    font-family: 'Bree Serif', serif;
+}
+
+#ty_container #quote {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    padding-left: 1.3em;
+    
+    text-align: end;
+    color: #525252;
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    text-shadow: #d4cbcb -2px 1px 5px;
+}
+@media screen and (max-width: 480px) {
+    #ty_container #quote {
+        text-shadow: #d4cbcb -1px 0px 3px;
+    }
+}
+
+#ty_container #quote > *:nth-child(1) {
+    font-style: italic;
+}
+#ty_container #quote > *:nth-child(2) {
+    padding-top: 2px;
+    padding-right: 0.5em;
+}
+
+.ty-hearts_container {
+    position: absolute;
+    bottom: 0px;
+}
+
+.ty-heart {
+    position: absolute;
+    display: block;
+    bottom: 0px;
+}
