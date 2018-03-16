@@ -15,7 +15,7 @@ This application uses [SpotifyAPI-NET][SpotifyAPI-NET].
 * Spotify
 
 ## Installation
-* Download the latest release of Toastify from <a id="inst-latest" href="{{ site.github.repository_url }}/releases/latest">here</a>.
+* Download the latest release of Toastify from <a id="inst-latest" href="{{ site.github.repository_url | append: '/releases/latest' }}">here</a>.
 * Run "*ToastifyInstaller.exe*" to install Toastify.
 
 **Note**: If you are updating from the original version of Toastify (v1.8.3), be sure to uninstall it completely before installing this version. You should also remove any file from the following directories, if they exist:
@@ -54,6 +54,6 @@ I dedicate most of my free time to improving and keeping Toastify alive. Althoug
 [//]: # (Links)
 
 [toastify@github]: <{{ site.github.repository_url }}>
-[toastify-showcase]: <https://raw.githubusercontent.com/{{ site.repository }}/gh-pages/img/toastify-showcase.png>
-[issues]: <{{ site.github.repository_url }}/issues>
+[toastify-showcase]: <{{ '/img/toastify-showcase.png' | relative_url }}>
+[issues]: <{{ site.github.repository_url | append: '/issues' }}>
 [SpotifyAPI-NET]: <https://github.com/JohnnyCrazy/SpotifyAPI-NET>

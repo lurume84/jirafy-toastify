@@ -13,8 +13,8 @@
 
     {% if site.show_downloads and include.hide_downloads != false %}
       <section id="downloads">
-        <a class="zip_download_link" href="{{ site.github.repository_url }}/zipball/master">Download the project as a .zip file</a>
-        <a class="release_download_link" href="{{ site.github.repository_url }}/releases/latest">Download the latest release</a>
+        <a class="zip_download_link" href="{{ site.github.repository_url | append: '/zipball/master' }}">Download the project as a .zip file</a>
+        <a class="release_download_link" href="{{ site.github.repository_url | append: '/releases/latest' }}">Download the latest release</a>
       </section>
     {% endif %}
   </header>

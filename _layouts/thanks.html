@@ -7,13 +7,13 @@
   <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
   <meta name="author" content="{{ site.github.owner_name }}">
   <title>Thank You</title>
-  <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="{{ '/img/favicon.ico' | relative_url }}" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro:400" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="stylesheet" type="text/css" media="screen" href="./css/custom.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="./css/thanks.css">
-  <script src="./js/scripts.js"></script>
-  <script src="./js/api.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ '/css/custom.css' | relative_url }}">
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ '/css/thanks.css' | relative_url }}">
+  <script src="{{ '/js/scripts.js' | relative_url }}"></script>
+  <script src="{{ '/js/api.js' | relative_url }}"></script>
   <style>body { overflow: hidden; }</style>
 </head>
 
@@ -34,6 +34,6 @@
   </div>
 
   {% include scripts.html %}
-  <script src="./js/thanks.js"></script>
+  <script src="{{ '/js/thanks.js' | relative_url }}"></script>
 </body>
 </html>

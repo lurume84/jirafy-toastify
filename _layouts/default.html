@@ -9,9 +9,9 @@
   <title>{{ site.title }}</title>
   <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="stylesheet" type="text/css" media="screen" href="./css/custom.css">
-  <script src="./js/scripts.js"></script>
-  <script src="./js/api.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ '/css/custom.css' | relative_url }}">
+  <script src="{{ '/js/scripts.js' | relative_url }}"></script>
+  <script src="{{ '/js/api.js' | relative_url }}"></script>
   {% seo title=false %}
 </head>
 
