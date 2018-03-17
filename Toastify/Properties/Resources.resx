@@ -233,4 +233,7 @@ The host address "open.spotify.com" might have been redirected by the client. Ch
   <data name="ERROR_STARTUP_SPOTIFY_TIMEOUT" xml:space="preserve">
     <value>Toastify timed out while trying to start, find or connect to Spotify.</value>
   </data>
+  <data name="toastify_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toastify-disabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

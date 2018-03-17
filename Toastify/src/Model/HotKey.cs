@@ -303,6 +303,7 @@ namespace Toastify.Model
                 if (this._globalKey != null)
                 {
                     this._globalKey.Enabled = false;
+                    this._globalKey.Dispose();
                     this._globalKey = null; // may as well collect the memory
                 }
 

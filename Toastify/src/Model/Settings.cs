@@ -126,6 +126,8 @@ namespace Toastify.Model
 
         #region Private fields
 
+        private SettingValue<bool> _canRunWithoutSpotify;
+        private SettingValue<bool> _startSpotifyWithToastify;
         private SettingValue<bool> _minimizeSpotifyOnStartup;
         private SettingValue<bool> _closeSpotifyWithToastify;
         private SettingValue<ToastifyVolumeControlMode> _volumeControlMode;
@@ -229,6 +231,31 @@ namespace Toastify.Model
 
                 this.NotifyPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Whether Toastify can be launched without Spotify and if it should be kept running if Spotify is terminated.
+        /// </summary>
+        /// <remarks> Use case example: https://github.com/aleab/toastify/issues/49#issuecomment-373045659 </remarks>
+        [DefaultValue(false)]
+        public SettingValue<bool> CanRunWithoutSpotify
+        {
+            get { return this.GetSettingValue(ref this._canRunWithoutSpotify); }
+            set { this.SetSettingValue(ref this._canRunWithoutSpotify, value); }
+        }
+
+        /// <summary>
+        /// Whether Spotify should be launched, if not already running, when Toastify is launched.
+        /// <para>
+        /// NOTE: This setting is ignored if <see cref="CanRunWithoutSpotify"/> is <code>false</code>. In that case Spotify is always started.
+        /// </para>
+        /// </summary>
+        /// <remarks> Use case example: https://github.com/aleab/toastify/issues/49#issuecomment-373045659 </remarks>
+        [DefaultValue(false)]
+        public SettingValue<bool> StartSpotifyWithToastify
+        {
+            get { return this.GetSettingValue(ref this._startSpotifyWithToastify); }
+            set { this.SetSettingValue(ref this._startSpotifyWithToastify, value); }
         }
 
         [DefaultValue(false)]
@@ -685,6 +712,8 @@ namespace Toastify.Model
         public void SetDefaultGeneral()
         {
             this.LaunchOnStartup = DefaultValueOf(this.LaunchOnStartup, nameof(this.LaunchOnStartup));
+            this.CanRunWithoutSpotify = DefaultValueOf(this.CanRunWithoutSpotify, nameof(this.CanRunWithoutSpotify));
+            this.StartSpotifyWithToastify = DefaultValueOf(this.StartSpotifyWithToastify, nameof(this.StartSpotifyWithToastify));
             this.MinimizeSpotifyOnStartup = DefaultValueOf(this.MinimizeSpotifyOnStartup, nameof(this.MinimizeSpotifyOnStartup));
             this.CloseSpotifyWithToastify = DefaultValueOf(this.CloseSpotifyWithToastify, nameof(this.CloseSpotifyWithToastify));
             this.VolumeControlMode = DefaultValueOf(this.VolumeControlMode, nameof(this.VolumeControlMode));
@@ -895,11 +924,7 @@ namespace Toastify.Model
         /// </summary>
         private void Apply()
         {
-            if (this.GlobalHotKeys && this.HotKeys != null)
-            {
-                foreach (Hotkey hotkey in this.HotKeys)
-                    hotkey.Activate();
-            }
+            this.ActivateHotkeys();
         }
 
         /// <summary>
@@ -907,7 +932,21 @@ namespace Toastify.Model
         /// </summary>
         private void Unload()
         {
-            if (this.HotKeys != null)
+            this.DeactivateHotkeys();
+        }
+
+        public void ActivateHotkeys()
+        {
+            if (this.GlobalHotKeys && this.HotKeys != null)
+            {
+                foreach (Hotkey hotkey in this.HotKeys)
+                    hotkey.Activate();
+            }
+        }
+
+        public void DeactivateHotkeys()
+        {
+            if (this.GlobalHotKeys && this.HotKeys != null)
             {
                 foreach (Hotkey hotkey in this.HotKeys)
                     hotkey.Deactivate();

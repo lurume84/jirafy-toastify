@@ -206,6 +206,7 @@
     <Compile Include="src\Helpers\SpotifyLocalAPIExtensions.cs" />
     <Compile Include="src\Common\DelegateCommand.cs" />
     <Compile Include="src\Common\ObservableObject.cs" />
+    <None Include="Resources\toastify-disabled.ico" />
     <Content Include="src\Services\Analytics.g.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Analytics.g.cs</LastGenOutput>
@@ -321,7 +322,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ga-code" />
     <EmbeddedResource Include="log4net.config" />
     <None Include="packages.config" />

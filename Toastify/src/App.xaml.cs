@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -430,6 +431,15 @@ namespace Toastify
         public App(string spotifyArgs)
         {
             SpotifyParameters = spotifyArgs.Trim();
+        }
+
+        public static bool IsRunningAsAdministrator()
+        {
+            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+            {
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
         }
 
         public static void ShowConfigProxyDialog()

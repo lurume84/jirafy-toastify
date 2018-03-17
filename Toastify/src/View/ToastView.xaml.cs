@@ -148,8 +148,8 @@ namespace Toastify.View
         private void FinalizeInit()
         {
             // Subscribe to Spotify's events (i.e. SpotifyLocalAPI's).
-            Spotify.Instance.Exited -= this.Application_Shutdown;
-            Spotify.Instance.Exited += this.Application_Shutdown;
+            Spotify.Instance.Exited -= this.Spotify_Exited;
+            Spotify.Instance.Exited += this.Spotify_Exited;
             Spotify.Instance.SongChanged -= this.Spotify_SongChanged;
             Spotify.Instance.SongChanged += this.Spotify_SongChanged;
             Spotify.Instance.PlayStateChanged -= this.Spotify_PlayStateChanged;
@@ -240,47 +240,54 @@ namespace Toastify.View
 
         private void InitTrayIcon()
         {
-            this.trayIcon = new SystemTray(@"Toastify – Waiting for Spotify...", true)
+            this.trayIcon = new SystemTray(@"Toastify – Waiting for Spotify...", false)
             {
                 AnimationStepMilliseconds = 75,
                 Visible = true,
                 ContextMenu = new ContextMenu()
             };
 
-            object[] animationIcons = {
-                Properties.Resources.toastify_loading_spotify_0,
-                Properties.Resources.toastify_loading_spotify_0,
-                Properties.Resources.toastify_loading_spotify_0,
-                Properties.Resources.toastify_loading_spotify_1,
-                Properties.Resources.toastify_loading_spotify_2,
-                Properties.Resources.toastify_loading_spotify_3,
-                Properties.Resources.toastify_loading_spotify_4,
-                Properties.Resources.toastify_loading_spotify_5,
-                Properties.Resources.toastify_loading_spotify_6,
-                Properties.Resources.toastify_loading_spotify_7,
-                Properties.Resources.toastify_loading_spotify_8,
-                Properties.Resources.toastify_loading_spotify_9,
-                Properties.Resources.toastify_loading_spotify_10,
-                Properties.Resources.toastify_loading_spotify_11,
-                Properties.Resources.toastify_loading_spotify_12,
-                Properties.Resources.toastify_loading_spotify_13,
-                Properties.Resources.toastify_loading_spotify_14,
-                Properties.Resources.toastify_loading_spotify_15,
-                Properties.Resources.toastify_loading_spotify_16,
-                Properties.Resources.toastify_loading_spotify_17,
-                Properties.Resources.toastify_loading_spotify_18,
-                Properties.Resources.toastify_loading_spotify_19,
-                Properties.Resources.toastify_loading_spotify_20,
-                Properties.Resources.toastify_loading_spotify_21,
-                Properties.Resources.toastify_loading_spotify_22,
-                Properties.Resources.toastify_loading_spotify_23,
-                Properties.Resources.toastify_loading_spotify_0,
-                Properties.Resources.toastify_loading_spotify_0,
-                Properties.Resources.toastify_loading_spotify_0
-            };
-            this.trayIcon.SetIconRange(animationIcons);
-            this.trayIcon.StartAnimation();
-
+            if (this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
+                this.trayIcon.Icon = Properties.Resources.toastify_disabled;
+            else
+            {
+                object[] animationIcons =
+                {
+                    Properties.Resources.toastify_loading_spotify_0,
+                    Properties.Resources.toastify_loading_spotify_0,
+                    Properties.Resources.toastify_loading_spotify_0,
+                    Properties.Resources.toastify_loading_spotify_1,
+                    Properties.Resources.toastify_loading_spotify_2,
+                    Properties.Resources.toastify_loading_spotify_3,
+                    Properties.Resources.toastify_loading_spotify_4,
+                    Properties.Resources.toastify_loading_spotify_5,
+                    Properties.Resources.toastify_loading_spotify_6,
+                    Properties.Resources.toastify_loading_spotify_7,
+                    Properties.Resources.toastify_loading_spotify_8,
+                    Properties.Resources.toastify_loading_spotify_9,
+                    Properties.Resources.toastify_loading_spotify_10,
+                    Properties.Resources.toastify_loading_spotify_11,
+                    Properties.Resources.toastify_loading_spotify_12,
+                    Properties.Resources.toastify_loading_spotify_13,
+                    Properties.Resources.toastify_loading_spotify_14,
+                    Properties.Resources.toastify_loading_spotify_15,
+                    Properties.Resources.toastify_loading_spotify_16,
+                    Properties.Resources.toastify_loading_spotify_17,
+                    Properties.Resources.toastify_loading_spotify_18,
+                    Properties.Resources.toastify_loading_spotify_19,
+                    Properties.Resources.toastify_loading_spotify_20,
+                    Properties.Resources.toastify_loading_spotify_21,
+                    Properties.Resources.toastify_loading_spotify_22,
+                    Properties.Resources.toastify_loading_spotify_23,
+                    Properties.Resources.toastify_loading_spotify_0,
+                    Properties.Resources.toastify_loading_spotify_0,
+                    Properties.Resources.toastify_loading_spotify_0
+                };
+                this.trayIcon.Animate = true;
+                this.trayIcon.SetIconRange(animationIcons);
+                this.trayIcon.StartAnimation();
+            }
+            
             // Init tray icon menu
             MenuItem menuSettings = new MenuItem { Text = @"Settings", Enabled = false };
             menuSettings.Click += (s, ev) => { SettingsView.Launch(this); };
@@ -311,7 +318,18 @@ namespace Toastify.View
         {
             Spotify.Instance.Connected -= this.Spotify_Connected;
             Spotify.Instance.Connected += this.Spotify_Connected;
-            Spotify.Instance.StartSpotify();
+
+            Settings.Current.DeactivateHotkeys();
+
+            bool isAdmin = App.IsRunningAsAdministrator();
+            if (logger.IsDebugEnabled)
+                logger.Debug($"User is admin? {isAdmin}");
+
+            if (!Spotify.Instance.IsRunning && isAdmin && this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
+                Spotify.Instance.WaitForSpotify();
+            else
+                Spotify.Instance.StartSpotify();
+            //Spotify.Instance.WaitForSpotify();
         }
 
         private void LoadPlugins()
@@ -958,6 +976,15 @@ namespace Toastify.View
         #endregion Event handlers [xaml]
 
         #region Event handlers [Spotify]
+
+        private void Spotify_Exited(object sender, EventArgs e)
+        {
+            // Terminate Toastify only if CanRunWithoutSpotify is false
+            if (App.IsRunningAsAdministrator() && !this.Settings.CanRunWithoutSpotify)
+                this.Application_Shutdown(sender, e);
+            else
+                Spotify.Instance.WaitForSpotify();
+        }
 
         /// <summary>
         /// This event is received only once, at the start of the application.

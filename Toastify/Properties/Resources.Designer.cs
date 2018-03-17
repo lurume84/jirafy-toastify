@@ -169,6 +169,16 @@ namespace Toastify.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon toastify_disabled {
+            get {
+                object obj = ResourceManager.GetObject("toastify_disabled", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon toastify_loading_spotify_0 {
             get {
                 object obj = ResourceManager.GetObject("toastify_loading_spotify_0", resourceCulture);
