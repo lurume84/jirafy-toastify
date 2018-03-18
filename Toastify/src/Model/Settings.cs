@@ -738,19 +738,10 @@ namespace Toastify.Model
         {
             this.GlobalHotKeys = DefaultValueOf(this.GlobalHotKeys, nameof(this.GlobalHotKeys));
 
-            if (this.HotKeys != null)
-            {
-                foreach (Hotkey hotkey in this.HotKeys)
-                    hotkey.Deactivate();
-            }
-
+            this.DeactivateHotkeys();
             this.HotKeys = (List<Hotkey>)this.defaultHotKeys.Clone();
-
-            if (activateHotkeys && this == _current && this.HotKeys != null)
-            {
-                foreach (Hotkey hotkey in this.HotKeys)
-                    hotkey.Activate();
-            }
+            if (activateHotkeys && this == _current)
+                this.ActivateHotkeys();
         }
 
         public void SetDefaultToastGeneral()
@@ -807,6 +798,8 @@ namespace Toastify.Model
 
         #endregion Default
 
+        #region Save / Load
+
         /// <summary>
         /// Save the current Settings instance to the file system.
         /// </summary>
@@ -823,11 +816,16 @@ namespace Toastify.Model
         }
 
         /// <summary>
-        /// Loads the Settings instance from the file system onto the Current Settings.
+        /// Loads the Settings instance from the file system onto the Current Settings and activates the Hotkeys.
         /// </summary>
         /// <exception cref="InvalidOperationException">if this instance is not <see cref="Current"/>.</exception>
         /// <exception cref="FileNotFoundException">if the serialized settings file was not found.</exception>
         public void Load()
+        {
+            this.Load(true);
+        }
+
+        public void Load(bool activateHotkeys)
         {
             if (this != Current)
                 throw new InvalidOperationException("Cannot load settings onto non-Current instance");
@@ -845,18 +843,23 @@ namespace Toastify.Model
 
             this.CheckForNewSettings();
             this.SanitizeSettingsFile();
-            this.Apply();
+            this.Apply(activateHotkeys);
         }
 
         /// <summary>
-        /// Loads the Settings instance from the file system onto the Current Settings or use default settings.
+        /// Loads the Settings instance from the file system onto the Current Settings or use default settings, and activates the Hotkeys.
         /// </summary>
         /// <exception cref="InvalidOperationException">if this instance is not <see cref="Current"/>.</exception>
         public void LoadSafe()
         {
+            this.LoadSafe(true);
+        }
+
+        public void LoadSafe(bool activateHotkeys)
+        {
             try
             {
-                this.Load();
+                this.Load(activateHotkeys);
             }
             catch (InvalidOperationException)
             {
@@ -864,7 +867,7 @@ namespace Toastify.Model
             }
             catch (Exception)
             {
-                Current.SetDefault();
+                Current.SetDefault(activateHotkeys);
                 Current.Save();
             }
         }
@@ -877,6 +880,8 @@ namespace Toastify.Model
             Current = this;
             this.Save();
         }
+
+        #endregion Save / Load
 
         /// <summary>
         /// Helpful place to fix common issues with settings files
@@ -922,9 +927,10 @@ namespace Toastify.Model
         /// <summary>
         /// Any active settings (such as hotkeys) should be triggered here
         /// </summary>
-        private void Apply()
+        private void Apply(bool activateHotkeys = true)
         {
-            this.ActivateHotkeys();
+            if (activateHotkeys && this.GlobalHotKeys)
+                this.ActivateHotkeys();
         }
 
         /// <summary>
@@ -932,12 +938,13 @@ namespace Toastify.Model
         /// </summary>
         private void Unload()
         {
-            this.DeactivateHotkeys();
+            if (this.GlobalHotKeys)
+                this.DeactivateHotkeys();
         }
 
         public void ActivateHotkeys()
         {
-            if (this.GlobalHotKeys && this.HotKeys != null)
+            if (this.HotKeys != null)
             {
                 foreach (Hotkey hotkey in this.HotKeys)
                     hotkey.Activate();
@@ -946,7 +953,7 @@ namespace Toastify.Model
 
         public void DeactivateHotkeys()
         {
-            if (this.GlobalHotKeys && this.HotKeys != null)
+            if (this.HotKeys != null)
             {
                 foreach (Hotkey hotkey in this.HotKeys)
                     hotkey.Deactivate();

@@ -28,6 +28,7 @@ namespace Toastify.View
 
             SettingsView.SettingsLaunched += this.SettingsView_SettingsLaunched;
             SettingsView.SettingsClosed += this.SettingsView_SettingsClosed;
+            SettingsView.SettingsSaved += this.SettingsView_SettingsSaved;
         }
 
         internal static void Launch()
@@ -159,6 +160,11 @@ namespace Toastify.View
         private void SettingsView_SettingsClosed(object sender, System.EventArgs e)
         {
             this.PreviewSettings = null;
+        }
+
+        private void SettingsView_SettingsSaved(object sender, Events.SettingsSavedEventArgs e)
+        {
+            this.PreviewSettings = e.Settings;
         }
 
         private void LogShowToastAction_OnChecked(object sender, RoutedEventArgs e)

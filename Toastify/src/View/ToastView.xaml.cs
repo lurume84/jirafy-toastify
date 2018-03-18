@@ -319,17 +319,15 @@ namespace Toastify.View
             Spotify.Instance.Connected -= this.Spotify_Connected;
             Spotify.Instance.Connected += this.Spotify_Connected;
 
-            Settings.Current.DeactivateHotkeys();
-
             bool isAdmin = App.IsRunningAsAdministrator();
             if (logger.IsDebugEnabled)
                 logger.Debug($"User is admin? {isAdmin}");
 
-            if (!Spotify.Instance.IsRunning && isAdmin && this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
-                Spotify.Instance.WaitForSpotify();
-            else
-                Spotify.Instance.StartSpotify();
-            //Spotify.Instance.WaitForSpotify();
+            //if (!Spotify.Instance.IsRunning && isAdmin && this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
+            //    Spotify.Instance.WaitForSpotify();
+            //else
+            //    Spotify.Instance.StartSpotify();
+            Spotify.Instance.WaitForSpotify();
         }
 
         private void LoadPlugins()

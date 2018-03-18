@@ -159,6 +159,7 @@ namespace Toastify.View
             if (_current != null)
             {
                 _current.Activate();
+                SettingsLaunched?.Invoke(_current, new SettingsViewLaunchedEventArgs(_current.Settings));
                 _current.SetMouseHook(true);
             }
             else
