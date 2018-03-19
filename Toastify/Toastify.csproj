@@ -170,6 +170,7 @@
     <Compile Include="src\CustomMessageBox.cs" />
     <Compile Include="src\Events\SettingsSavedEventArgs.cs" />
     <Compile Include="src\Events\UpdateReadyEventArgs.cs" />
+    <Compile Include="src\Helpers\Converters\MultiBooleanAndConverter.cs" />
     <Compile Include="src\Helpers\Converters\SettingValueToOppositeBoolValueConverter.cs" />
     <Compile Include="src\Common\ConstraintFailedException.cs" />
     <Compile Include="src\Common\EnumReadableNameAttribute.cs" />

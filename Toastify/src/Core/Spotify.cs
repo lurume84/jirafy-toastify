@@ -204,7 +204,7 @@ namespace Toastify.Core
                 {
                     while (this.spotifyProcess == null)
                     {
-                        if (IsMainSpotifyProcess(pid))
+                        if (ToastifyAPI.Spotify.IsMainSpotifyProcess(pid))
                         {
                             logger.Info($"Spotify launched; PID = {pid}");
                             this.spotifyProcess = process;
@@ -807,13 +807,6 @@ namespace Toastify.Core
                 Windows.SendAppCommandMessage(this.GetMainWindowHandle(), (IntPtr)action, true);
             if (sendMediaKey)
                 Win32API.SendMediaKey(action);
-        }
-
-        public static bool IsMainSpotifyProcess(uint pid)
-        {
-            var windows = Win32API.GetProcessWindows(pid);
-            IntPtr hWnd = windows.FirstOrDefault(h => spotifyMainWindowNames.Contains(Win32API.GetClassName(h)));
-            return hWnd != IntPtr.Zero;
         }
 
         private static string GetSpotifyPath()

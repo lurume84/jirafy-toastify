@@ -3,9 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpft="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:core="clr-namespace:Toastify.Core"
         xmlns:common="clr-namespace:Toastify.Common"
         xmlns:converters="clr-namespace:Toastify.Helpers.Converters"
+        xmlns:core="clr-namespace:Toastify.Core"
         xmlns:markup="clr-namespace:Toastify.Helpers.Markup"
         xmlns:validators="clr-namespace:Toastify.Helpers.Validators"
         xmlns:viewmodel="clr-namespace:Toastify.ViewModel"
@@ -14,9 +14,10 @@
         Title="Toastify - Settings" Height="570" Width="580" ResizeMode="NoResize" Icon="/Toastify;component/Resources/ToastifyIcon.ico" Closed="Window_Closed">
 
     <Window.Resources>
-        <converters:OppositeBoolToVisibleConverter x:Key="OppositeBoolToVisibleConverter"></converters:OppositeBoolToVisibleConverter>
-        <converters:SettingValueToValueConverter x:Key="SettingValueToValueConverter"></converters:SettingValueToValueConverter>
-        <converters:SettingValueToOppositeBoolValueConverter x:Key="SettingValueToOppositeBoolValueConverter"></converters:SettingValueToOppositeBoolValueConverter>
+        <converters:OppositeBoolToVisibleConverter x:Key="OppositeBoolToVisibleConverter" />
+        <converters:SettingValueToValueConverter x:Key="SettingValueToValueConverter" />
+        <converters:SettingValueToOppositeBoolValueConverter x:Key="SettingValueToOppositeBoolValueConverter" />
+        <converters:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter" />
 
         <DataTemplate x:Key="GroupBoxHeaderTemplate">
             <TextBlock Text="{Binding}" Margin="1,2" Padding="0,2" />
@@ -28,10 +29,50 @@
         <TabControl Name="TabControl1" SelectedIndex="{Binding Path=CurrentTabIndex, Mode=TwoWay}">
             <TabItem Header="General" Name="General">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <CheckBox IsChecked="{Binding Path=Settings.LaunchOnStartup, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,10,0,0" Height="21" VerticalContentAlignment="Center">Launch Toastify with Windows</CheckBox>
-                    <CheckBox IsChecked="{Binding Path=Settings.MinimizeSpotifyOnStartup, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,34,0,0" Height="21" VerticalContentAlignment="Center">Minimize Spotify on launch</CheckBox>
-                    <CheckBox IsChecked="{Binding Path=Settings.CloseSpotifyWithToastify, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,58,0,0" Height="21" VerticalContentAlignment="Center">Close Spotify when Toastify is closed</CheckBox>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,84,0,0" Height="26">
+                    <CheckBox Margin="12,10,0,0" Height="21" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Settings.LaunchOnStartup, Mode=TwoWay}">Launch Toastify automatically on system startup</CheckBox>
+                    <CheckBox Margin="12,34,0,0" Height="21" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Settings.MinimizeSpotifyOnStartup, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}">Minimize Spotify on launch</CheckBox>
+                    <CheckBox Margin="12,58,0,0" Height="21" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                              IsChecked="{Binding Path=Settings.CloseSpotifyWithToastify, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}">Close Spotify when Toastify is closed</CheckBox>
+                    <StackPanel Margin="12,82,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                        <CheckBox Name="CbCanRunWithoutSpotify" Height="21" HorizontalAlignment="Left" VerticalContentAlignment="Center" ToolTipService.ShowDuration="10000"
+                                  IsChecked="{Binding Path=Settings.CanRunWithoutSpotify, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}"
+                                  IsEnabled="{Binding Path=IsAppRunningAsAdministrator, Mode=OneWay}">
+                            <CheckBox.Content>Let Toastify run without Spotify</CheckBox.Content>
+                            <CheckBox.ToolTip>
+                                <TextBlock>
+                                    If this option is checked, Toastify can be started without launching Spotify and it will continue
+                                    <LineBreak />
+                                    to run indefinitely when Spotify is terminated, waiting for it to become available again.
+                                </TextBlock>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                        <Image Margin="5,0,0,0" Source="{Binding Path=UACShieldImageSource, Mode=OneTime}" Width="20" Height="20" ToolTip="{Binding Path=RequiresAdminTooltip}" />
+                    </StackPanel>
+                    <StackPanel Margin="28,106,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                        <CheckBox Height="21" HorizontalAlignment="Left" VerticalContentAlignment="Center" ToolTipService.ShowDuration="10000"
+                                  IsChecked="{Binding Path=Settings.StartSpotifyWithToastify, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}">
+                            <CheckBox.Content>Start Spotify with Toastify</CheckBox.Content>
+                            <CheckBox.ToolTip>
+                                <TextBlock>
+                                    If this option is checked, Toastify will start Spotify if it's not already running.
+                                    <LineBreak />
+                                    Otherwise, Toastify will wait for Spotify to be launched.
+                                </TextBlock>
+                            </CheckBox.ToolTip>
+                            <CheckBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource MultiBooleanAndConverter}">
+                                    <Binding ElementName="CbCanRunWithoutSpotify" Path="IsEnabled" />
+                                    <Binding ElementName="CbCanRunWithoutSpotify" Path="IsChecked" />
+                                </MultiBinding>
+                            </CheckBox.IsEnabled>
+                        </CheckBox>
+                        <Image Margin="5,0,0,0" Source="{Binding Path=SystemInfoImageSource, Mode=OneTime}" Width="16" Height="16"
+                               ToolTip="When Toastify is not started with admin privileges, Spotify always needs to be running when Toastify is." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,139,0,0" Height="26">
                         <Label VerticalContentAlignment="Center">Volume control mode:</Label>
                         <ComboBox VerticalContentAlignment="Center" Margin="6,0,0,0" Name="ComboVolumeControlMode" SelectionChanged="ComboVolumeControlMode_OnSelectionChanged"
                                   ItemsSource="{Binding Source={markup:Enum {x:Type core:ToastifyVolumeControlMode}}}"
@@ -43,7 +84,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Name="PanelWindowsMixerIncrement" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="37,116,0,0" Height="26">
+                    <StackPanel Name="PanelWindowsMixerIncrement" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,171,0,0" Height="26">
                         <Label x:Name="LabelWindowsMixerIncrement" Margin="0" Height="26" VerticalContentAlignment="Center" HorizontalAlignment="Left" Content="Windows Volume Mixer increment :" />
                         <wpft:DoubleUpDown Margin="8,0,0,0" Height="24" Width="50" VerticalContentAlignment="Center" HorizontalAlignment="Left"
                                            Value="{Binding Path=Settings.WindowsVolumeMixerIncrement, Converter={StaticResource SettingValueToValueConverter}, Mode=TwoWay, StringFormat=F1, ValidatesOnExceptions=True}"
@@ -96,6 +137,7 @@
 
                     <CheckBox Name="CbSaveTrackToFile" IsChecked="{Binding Path=Settings.SaveTrackToFile, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,360,0,0" Height="21" VerticalContentAlignment="Center">Save Artist and Album to file when song changes (uses the clipboard template)</CheckBox>
                     <Button Name="BtnSaveTrackToFile" Command="{Binding Path=SelectFileForSavingTrackCommand}" IsEnabled="{Binding IsChecked, ElementName=CbSaveTrackToFile}" Margin="37,385,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="8,4">Select File</Button>
+
                     <CheckBox IsChecked="{Binding Path=Settings.OptInToAnalytics, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,430,0,0" Height="31">
                         <TextBlock TextWrapping="Wrap">Opt in to anonymous data collection.<LineBreak />
                             Data is never shared, is anonymous, and is used solely to improve the app.</TextBlock>

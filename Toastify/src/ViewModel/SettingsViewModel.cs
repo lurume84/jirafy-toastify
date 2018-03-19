@@ -22,6 +22,26 @@ namespace Toastify.ViewModel
             private set { this.RaiseAndSetIfChanged(ref this._settings, value); }
         }
 
+        public ImageSource UACShieldImageSource
+        {
+            get { return ToastifyAPI.Win32API.GetStockIconImage(ShStockIconId.SIID_SHIELD, true); }
+        }
+
+        public ImageSource SystemInfoImageSource
+        {
+            get { return ToastifyAPI.Win32API.GetStockIconImage(ShStockIconId.SIID_INFO, true); }
+        }
+
+        public bool IsAppRunningAsAdministrator
+        {
+            get { return App.IsRunningAsAdministrator(); }
+        }
+
+        public string RequiresAdminTooltip
+        {
+            get { return "This option requires admin privileges"; }
+        }
+
         public int CurrentTabIndex { get; set; }
 
         public int CurrentToastTabIndex { get; set; }

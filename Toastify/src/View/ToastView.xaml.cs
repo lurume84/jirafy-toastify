@@ -323,11 +323,10 @@ namespace Toastify.View
             if (logger.IsDebugEnabled)
                 logger.Debug($"User is admin? {isAdmin}");
 
-            //if (!Spotify.Instance.IsRunning && isAdmin && this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
-            //    Spotify.Instance.WaitForSpotify();
-            //else
-            //    Spotify.Instance.StartSpotify();
-            Spotify.Instance.WaitForSpotify();
+            if (!Spotify.Instance.IsRunning && isAdmin && this.Settings.CanRunWithoutSpotify && !this.Settings.StartSpotifyWithToastify)
+                Spotify.Instance.WaitForSpotify();
+            else
+                Spotify.Instance.StartSpotify();
         }
 
         private void LoadPlugins()

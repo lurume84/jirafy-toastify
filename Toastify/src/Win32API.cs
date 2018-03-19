@@ -8,6 +8,8 @@ using Toastify.Core;
 using ToastifyAPI.Native;
 using ToastifyAPI.Native.Enums;
 
+// TODO: Refactor all this mess in a separate namespace (Native?)
+
 // ReSharper disable InconsistentNaming
 namespace Toastify
 {
