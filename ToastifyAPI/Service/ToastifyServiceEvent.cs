@@ -1,4 +1,4 @@
-﻿namespace ToastifyService
+﻿namespace ToastifyAPI.Service
 {
     public enum ToastifyServiceEvent
     {

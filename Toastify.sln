@@ -10,9 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installation", "Installatio
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toastify", "Toastify\Toastify.csproj", "{CCC4A761-56D2-4188-807F-F7A547DFB031}"
-	ProjectSection(ProjectDependencies) = postProject
-		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487} = {44E4FEA2-AEF8-43B2-B2F6-1846795DB487}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{68F1A17D-4930-4EEC-AEEF-5DD9C9033B40}"
 EndProject

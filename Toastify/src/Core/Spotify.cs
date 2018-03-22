@@ -4,9 +4,12 @@ using SpotifyAPI.Local.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -18,6 +21,9 @@ using Toastify.Services;
 using ToastifyAPI.Native;
 using ToastifyAPI.Native.Enums;
 using ToastifyAPI.Native.Structs;
+using ToastifyAPI.Service;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 using Timer = System.Timers.Timer;
 
 namespace Toastify.Core
@@ -169,7 +175,9 @@ namespace Toastify.Core
 
         private void StartSpotify_WorkerTask(object sender, DoWorkEventArgs e)
         {
-            this.spotifyProcess = !this.IsRunning ? this.LaunchSpotifyAndWaitForInputIdle(e) : ToastifyAPI.Spotify.FindSpotifyProcess();
+            if (this.spotifyProcess == null)
+                this.spotifyProcess = !this.IsRunning ? this.LaunchSpotifyAndWaitForInputIdle(e) : ToastifyAPI.Spotify.FindSpotifyProcess();
+
             if (e.Cancel)
                 return;
             if (this.spotifyProcess == null)
@@ -189,7 +197,7 @@ namespace Toastify.Core
                 {
                     if (e.Error is ApplicationStartupException applicationStartupException)
                     {
-                        logger.Error("Error while starting Spotify.", applicationStartupException);
+                        logger.Error("Error while starting or connecting to Spotify.", applicationStartupException);
 
                         string errorMsg = Properties.Resources.ERROR_STARTUP_SPOTIFY;
                         MessageBox.Show($"{errorMsg}\n{applicationStartupException.Message}", "Toastify", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -198,7 +206,7 @@ namespace Toastify.Core
                     }
                     else if (e.Error is WebException webException)
                     {
-                        logger.Error("Web exception while starting Spotify.", webException);
+                        logger.Error("Web exception while starting or connecting to Spotify.", webException);
 
                         string errorMsg = Properties.Resources.ERROR_STARTUP_RESTART;
                         string status = $"{webException.Status}";
@@ -211,7 +219,7 @@ namespace Toastify.Core
                     }
                     else
                     {
-                        logger.Error("Unknown error while starting Spotify.", e.Error);
+                        logger.Error("Unknown error while starting or connecting to Spotify.", e.Error);
 
                         string errorMsg = Properties.Resources.ERROR_UNKNOWN;
                         string techDetails = $"Technical Details: {e.Error.Message}\n{e.Error.StackTrace}";
@@ -222,7 +230,7 @@ namespace Toastify.Core
                 }
                 else // e.Cancelled
                 {
-                    logger.Error("Toastify was not able to find Spotify within the timeout interval.");
+                    logger.Error("Toastify was not able to find or connect to Spotify within the timeout interval.");
 
                     string errorMsg = Properties.Resources.ERROR_STARTUP_SPOTIFY;
                     const string techDetails = "Technical Details: timeout";
@@ -351,6 +359,51 @@ namespace Toastify.Core
         }
 
         #endregion Spotify Launcher background worker
+
+        #region WaitForSpotify
+
+        public void WaitForSpotify()
+        {
+            Thread toastifyServiceListener = new Thread(() =>
+            {
+                MemoryMappedFile mmf = MemoryMappedFile.OpenExisting(ToastifyService.MmfName);
+                MemoryMappedViewStream mmvStream = mmf.CreateViewStream(0, ToastifyService.MmfViewSize);
+
+                BinaryFormatter formatter = new BinaryFormatter();
+                byte[] buffer = new byte[ToastifyService.MmfViewSize];
+
+                while (mmvStream.CanRead)
+                {
+                    mmvStream.Read(buffer, 0, ToastifyService.MmfViewSize);
+                    var message = (ToastifyServiceMessage)formatter.Deserialize(new MemoryStream(buffer));
+                    this.HandleToastifyServiceMessage(message);
+                    Thread.Sleep(1000);
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "ToastifyService Listener"
+            };
+            toastifyServiceListener.Start();
+        }
+
+        private void HandleToastifyServiceMessage(ToastifyServiceMessage message)
+        {
+            // TODO:
+            switch (message.@event)
+            {
+                case ToastifyServiceEvent.SpotifyStarted:
+                    break;
+
+                case ToastifyServiceEvent.SpotifyTerminated:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(message.@event));
+            }
+        }
+
+        #endregion WaitForSpotify
 
         private void Minimize(int delay = 0)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ToastifyService
+namespace ToastifyAPI.Service
 {
     [Serializable]
     public class ToastifyServiceMessage

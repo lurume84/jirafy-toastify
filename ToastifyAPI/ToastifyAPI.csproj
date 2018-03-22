@@ -187,6 +187,9 @@
     <Compile Include="Plugins\IPluginBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\SpotifyTrackChangedEventArgs.cs" />
+    <Compile Include="Service\ToastifyService.cs" />
+    <Compile Include="Service\ToastifyServiceEvent.cs" />
+    <Compile Include="Service\ToastifyServiceMessage.cs" />
     <Compile Include="Spotify.uwp.cs" />
     <Compile Include="Spotify.win32.cs" />
     <Compile Include="Spotify.cs" />

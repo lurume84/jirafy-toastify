@@ -9,14 +9,12 @@ using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using ToastifyAPI;
+using ToastifyAPI.Service;
 
 namespace ToastifyService
 {
     public partial class ToastifyService : ServiceBase
     {
-        public static readonly int MmfMaxSize = 1024;
-        public static readonly int MmfViewSize = 1024;
-
         private readonly MemoryMappedFile mmf;
 
         private const string watchQuery = @"SELECT * FROM Win32_ProcessStartTrace " +
@@ -38,7 +36,11 @@ namespace ToastifyService
             this.eventLog.Log = "ToastifyServiceLog";
 
             // Create the memory-mapped file that's going to be used to perform IPC
-            this.mmf = MemoryMappedFile.CreateNew("toastify-ipc.mmf", MmfMaxSize, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.None, HandleInheritability.Inheritable);
+            this.mmf = MemoryMappedFile.CreateNew(ToastifyAPI.Service.ToastifyService.MmfName,
+                ToastifyAPI.Service.ToastifyService.MmfMaxSize,
+                MemoryMappedFileAccess.ReadWrite,
+                MemoryMappedFileOptions.None,
+                HandleInheritability.Inheritable);
         }
 
         protected override void OnStart(string[] args)
@@ -106,7 +108,7 @@ namespace ToastifyService
             if (toastify == null)
                 return;
 
-            MemoryMappedViewStream mmvStream = this.mmf.CreateViewStream(0, MmfViewSize);
+            MemoryMappedViewStream mmvStream = this.mmf.CreateViewStream(0, ToastifyAPI.Service.ToastifyService.MmfViewSize);
 
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(mmvStream, message);
