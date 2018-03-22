@@ -68,9 +68,7 @@ namespace ToastifyAPI
             {
                 foreach (var p in spotifyProcesses)
                 {
-                    var processWindows = Windows.GetProcessWindows((uint)p.Id);
-                    IntPtr hWnd = processWindows.FirstOrDefault(h => spotifyMainWindowNames.Contains(Windows.GetClassName(h)));
-                    if (hWnd != IntPtr.Zero)
+                    if (IsMainSpotifyProcess((uint)p.Id))
                         return p;
                 }
             }
@@ -98,6 +96,13 @@ namespace ToastifyAPI
             }
 
             return possibleMainWindows.FirstOrDefault();
+        }
+
+        public static bool IsMainSpotifyProcess(uint pid)
+        {
+            var windows = Windows.GetProcessWindows(pid);
+            IntPtr hWnd = windows.FirstOrDefault(h => spotifyMainWindowNames.Contains(Windows.GetClassName(h)));
+            return hWnd != IntPtr.Zero;
         }
     }
 }
