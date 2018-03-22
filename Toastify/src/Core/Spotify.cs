@@ -17,6 +17,10 @@ using Toastify.Events;
 using Toastify.Helpers;
 using Toastify.Model;
 using Toastify.Services;
+using ToastifyAPI;
+using ToastifyAPI.Native;
+using ToastifyAPI.Native.Enums;
+using ToastifyAPI.Native.Structs;
 using Timer = System.Timers.Timer;
 
 namespace Toastify.Core
@@ -83,8 +87,8 @@ namespace Toastify.Core
                     return false;
 
                 var hWnd = this.GetMainWindowHandle();
-                Win32API.WindowStylesFlags windowStyles = (Win32API.WindowStylesFlags)Win32API.GetWindowLongPtr(hWnd, Win32API.GWL.GWL_STYLE);
-                return (windowStyles & Win32API.WindowStylesFlags.WS_MINIMIZE) != 0L || this.IsMinimizedToTray;
+                WindowStylesFlags windowStyles = (WindowStylesFlags)Windows.GetWindowLongPtr(hWnd, GWL.GWL_STYLE);
+                return (windowStyles & WindowStylesFlags.WS_MINIMIZE) != 0L || this.IsMinimizedToTray;
             }
         }
 
@@ -96,8 +100,8 @@ namespace Toastify.Core
                     return false;
 
                 var hWnd = this.GetMainWindowHandle();
-                Win32API.WindowStylesFlags windowStyles = (Win32API.WindowStylesFlags)Win32API.GetWindowLongPtr(hWnd, Win32API.GWL.GWL_STYLE);
-                return (windowStyles & Win32API.WindowStylesFlags.WS_MINIMIZE) == 0L && (windowStyles & Win32API.WindowStylesFlags.WS_VISIBLE) == 0L;
+                WindowStylesFlags windowStyles = (WindowStylesFlags)Windows.GetWindowLongPtr(hWnd, GWL.GWL_STYLE);
+                return (windowStyles & WindowStylesFlags.WS_MINIMIZE) == 0L && (windowStyles & WindowStylesFlags.WS_VISIBLE) == 0L;
             }
         }
 
@@ -370,7 +374,7 @@ namespace Toastify.Core
 
             if (windowedProcesses.Count > 1)
             {
-                var classNames = windowedProcesses.Select(p => $"\"{Win32API.GetClassName(p.MainWindowHandle)}\"");
+                var classNames = windowedProcesses.Select(p => $"\"{Windows.GetClassName(p.MainWindowHandle)}\"");
                 logger.Warn($"More than one ({windowedProcesses.Count}) \"spotify\" process has a non-null main window: {string.Join(", ", classNames)}");
             }
 
@@ -382,8 +386,8 @@ namespace Toastify.Core
             {
                 foreach (var p in spotifyProcesses)
                 {
-                    var processWindows = Win32API.GetProcessWindows((uint)p.Id);
-                    IntPtr hWnd = processWindows.FirstOrDefault(h => spotifyMainWindowNames.Contains(Win32API.GetClassName(h)));
+                    var processWindows = Windows.GetProcessWindows((uint)p.Id);
+                    IntPtr hWnd = processWindows.FirstOrDefault(h => spotifyMainWindowNames.Contains(Windows.GetClassName(h)));
                     if (hWnd != IntPtr.Zero)
                         return p;
                 }
@@ -411,7 +415,7 @@ namespace Toastify.Core
                 // We also need to wait a little more before minimizing the window;
                 // if we don't, the toast will not show the current track until 'something' happens (track change, play state change...).
                 Thread.Sleep(delay);
-                Win32API.ShowWindow(hWnd, Win32API.ShowWindowCmd.SW_SHOWMINIMIZED);
+                User32.ShowWindow(hWnd, ShowWindowCmd.SW_SHOWMINIMIZED);
             }
         }
 
@@ -441,12 +445,12 @@ namespace Toastify.Core
                 var hWnd = this.GetMainWindowHandle();
 
                 // check Spotify's current window state
-                var placement = new Win32API.WindowPlacement();
-                Win32API.GetWindowPlacement(hWnd, ref placement);
+                var placement = new WindowPlacement();
+                User32.GetWindowPlacement(hWnd, ref placement);
 
-                var showCommand = Win32API.ShowWindowCmd.SW_SHOW;
-                if (placement.showCmd == Win32API.ShowWindowCmd.SW_SHOWMINIMIZED || placement.showCmd == Win32API.ShowWindowCmd.SW_HIDE)
-                    showCommand = Win32API.ShowWindowCmd.SW_RESTORE;
+                var showCommand = ShowWindowCmd.SW_SHOW;
+                if (placement.showCmd == ShowWindowCmd.SW_SHOWMINIMIZED || placement.showCmd == ShowWindowCmd.SW_HIDE)
+                    showCommand = ShowWindowCmd.SW_RESTORE;
 
                 if (this.IsMinimizedToTray)
                 {
@@ -481,10 +485,10 @@ namespace Toastify.Core
                     //}
                 }
                 else
-                    Win32API.ShowWindow(hWnd, showCommand);
+                    User32.ShowWindow(hWnd, showCommand);
 
-                Win32API.SetForegroundWindow(hWnd);
-                Win32API.SetFocus(hWnd);
+                User32.SetForegroundWindow(hWnd);
+                User32.SetFocus(hWnd);
             }
         }
 
@@ -495,17 +499,17 @@ namespace Toastify.Core
             if (this.spotifyProcess == null)
                 return IntPtr.Zero;
 
-            var windows = Win32API.GetProcessWindows((uint)this.spotifyProcess.Id);
+            var windows = Windows.GetProcessWindows((uint)this.spotifyProcess.Id);
             var possibleMainWindows = windows.Where(h =>
             {
-                string className = Win32API.GetClassName(h);
-                string windowName = Win32API.GetWindowTitle(h);
+                string className = Windows.GetClassName(h);
+                string windowName = Windows.GetWindowTitle(h);
                 return !string.IsNullOrWhiteSpace(windowName) && spotifyMainWindowNames.Contains(className);
             }).ToList();
 
             if (possibleMainWindows.Count > 1)
             {
-                var classNames = possibleMainWindows.Select(h => $"\"{Win32API.GetClassName(h)}\"");
+                var classNames = possibleMainWindows.Select(h => $"\"{Windows.GetClassName(h)}\"");
                 logger.Warn($"More than one ({possibleMainWindows.Count}) possible main windows located for Spotify: {string.Join(", ", classNames)}");
             }
 
@@ -612,7 +616,7 @@ namespace Toastify.Core
             }
 
             if (sendAppCommandMessage)
-                Win32API.SendAppCommandMessage(this.GetMainWindowHandle(), (IntPtr)action, true);
+                Windows.SendAppCommandMessage(this.GetMainWindowHandle(), (IntPtr)action, true);
             if (sendMediaKey)
                 Win32API.SendMediaKey(action);
         }

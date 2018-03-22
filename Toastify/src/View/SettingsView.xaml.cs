@@ -14,6 +14,11 @@ using Toastify.Helpers;
 using Toastify.Model;
 using Toastify.Services;
 using Toastify.ViewModel;
+using ToastifyAPI;
+using ToastifyAPI.Native;
+using ToastifyAPI.Native.Delegates;
+using ToastifyAPI.Native.Enums;
+using ToastifyAPI.Native.Structs;
 using Xceed.Wpf.Toolkit;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using WindowStartupLocation = System.Windows.WindowStartupLocation;
@@ -32,7 +37,7 @@ namespace Toastify.View
         private readonly SettingsViewModel settingsViewModel;
 
         private IntPtr hHook = IntPtr.Zero;
-        private Win32API.LowLevelMouseHookProc mouseHookProc;
+        private LowLevelMouseHookProc mouseHookProc;
 
         private Settings Settings
         {
@@ -90,11 +95,11 @@ namespace Toastify.View
                     return;
 
                 this.mouseHookProc = this.MouseHookProc;
-                this.hHook = Win32API.SetLowLevelMouseHook(ref this.mouseHookProc);
+                this.hHook = Processes.SetLowLevelMouseHook(ref this.mouseHookProc);
             }
             else if (!enable && this.hHook != IntPtr.Zero)
             {
-                bool success = Win32API.UnhookWindowsHookEx(this.hHook);
+                bool success = User32.UnhookWindowsHookEx(this.hHook);
                 if (success == false)
                     logger.Error($"Failed to un-register a low-level mouse hook. Error code: {Marshal.GetLastWin32Error()}");
 
@@ -103,13 +108,13 @@ namespace Toastify.View
             }
         }
 
-        private IntPtr MouseHookProc(int nCode, Win32API.WindowsMessagesFlags wParam, Win32API.LowLevelMouseHookStruct lParam)
+        private IntPtr MouseHookProc(int nCode, WindowsMessagesFlags wParam, LowLevelMouseHookStruct lParam)
         {
             if (nCode >= 0)
             {
                 if (this.TxtSingleKey.IsFocused)
                 {
-                    if (wParam == Win32API.WindowsMessagesFlags.WM_XBUTTONUP)
+                    if (wParam == WindowsMessagesFlags.WM_XBUTTONUP)
                     {
                         Union32 union = new Union32(lParam.mouseData);
 
@@ -129,7 +134,7 @@ namespace Toastify.View
                 }
             }
 
-            return Win32API.CallNextHookEx(this.hHook, nCode, wParam, lParam);
+            return User32.CallNextHookEx(this.hHook, nCode, wParam, lParam);
         }
 
         public static void Launch(ToastView toastView)
@@ -284,8 +289,8 @@ namespace Toastify.View
                 double increment = this.ToastWidthUpDown.Increment ?? 0.0;
 
                 // Move the toast leftwards
-                Rect toastRect = ToastView.Current == null ? new Rect() : this.toastView.Rect;
-                Rect totalRect = ScreenHelper.GetTotalWorkingArea();
+                System.Windows.Rect toastRect = ToastView.Current == null ? new System.Windows.Rect() : this.toastView.Rect;
+                System.Windows.Rect totalRect = ScreenHelper.GetTotalWorkingArea();
                 double availableSpaceToTheLeft = toastRect.Left - totalRect.Left;
                 double deltaX = Math.Min(availableSpaceToTheLeft, increment);
 
@@ -302,8 +307,8 @@ namespace Toastify.View
                 double increment = this.ToastHeightUpDown.Increment ?? 0.0;
 
                 // Move the toast upwards
-                Rect toastRect = ToastView.Current == null ? new Rect() : this.toastView.Rect;
-                Rect totalRect = ScreenHelper.GetTotalWorkingArea();
+                System.Windows.Rect toastRect = ToastView.Current == null ? new System.Windows.Rect() : this.toastView.Rect;
+                System.Windows.Rect totalRect = ScreenHelper.GetTotalWorkingArea();
                 double availableSpaceAbove = toastRect.Top - totalRect.Top;
                 double deltaY = Math.Min(availableSpaceAbove, increment);
 
