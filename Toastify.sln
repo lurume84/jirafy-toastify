@@ -10,6 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installation", "Installatio
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toastify", "Toastify\Toastify.csproj", "{CCC4A761-56D2-4188-807F-F7A547DFB031}"
+	ProjectSection(ProjectDependencies) = postProject
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487} = {44E4FEA2-AEF8-43B2-B2F6-1846795DB487}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{68F1A17D-4930-4EEC-AEEF-5DD9C9033B40}"
 EndProject
@@ -24,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		update-version.cmd = update-version.cmd
 		update-version.ps1 = update-version.ps1
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastifyService", "ToastifyService\ToastifyService.csproj", "{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +82,22 @@ Global
 		{5D68931F-528F-4D95-89BE-3EB26832AF8C}.zzz_ToastifyAPI (UWP)|Any CPU.Build.0 = Windows (UWP) (Debug)|Any CPU
 		{5D68931F-528F-4D95-89BE-3EB26832AF8C}.zzz_ToastifyAPI (UWP)|x64.ActiveCfg = Windows (UWP) (Debug)|x64
 		{5D68931F-528F-4D95-89BE-3EB26832AF8C}.zzz_ToastifyAPI (UWP)|x64.Build.0 = Windows (UWP) (Debug)|x64
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Debug)|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Debug)|Any CPU.Build.0 = Debug|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Debug)|x64.ActiveCfg = Debug|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Debug)|x64.Build.0 = Debug|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Release)|Any CPU.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Release)|Any CPU.Build.0 = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Release)|x64.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Release)|x64.Build.0 = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Test Release)|Any CPU.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Test Release)|Any CPU.Build.0 = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Test Release)|x64.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.Windows (Test Release)|x64.Build.0 = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.zzz_ToastifyAPI (UWP)|Any CPU.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.zzz_ToastifyAPI (UWP)|Any CPU.Build.0 = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.zzz_ToastifyAPI (UWP)|x64.ActiveCfg = Release|Any CPU
+		{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}.zzz_ToastifyAPI (UWP)|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
