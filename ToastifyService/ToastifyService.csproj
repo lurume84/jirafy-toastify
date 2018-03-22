@@ -67,5 +67,11 @@
       <DependentUpon>ToastifyService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToastifyAPI\ToastifyAPI.csproj">
+      <Project>{5d68931f-528f-4d95-89be-3eb26832af8c}</Project>
+      <Name>ToastifyAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

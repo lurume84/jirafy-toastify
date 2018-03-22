@@ -29,6 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastifyService", "ToastifyService\ToastifyService.csproj", "{44E4FEA2-AEF8-43B2-B2F6-1846795DB487}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D68931F-528F-4D95-89BE-3EB26832AF8C} = {5D68931F-528F-4D95-89BE-3EB26832AF8C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
