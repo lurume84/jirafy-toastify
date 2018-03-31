@@ -307,6 +307,10 @@ namespace Toastify.ViewModel
                     break;
 
                 case 3:
+                    this.Settings.SetDefaultOther();
+                    break;
+
+                case 4:
                     this.Settings.SetDefaultAdvanced();
                     break;
 

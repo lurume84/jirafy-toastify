@@ -91,7 +91,7 @@
                                            AllowInputSpecialValues="None" AllowSpin="True" AllowTextInput="True" FormatString="F1" Minimum="0.0" Maximum="20.0" Increment="0.1" ClipValueToMinMax="True" DefaultValue="1.0" />
                     </StackPanel>
 
-                    <GroupBox Header="Updates" Margin="12,148,12,0" Padding="8" VerticalAlignment="Top">
+                    <GroupBox Header="Updates" Margin="12,205,12,0" Padding="8" VerticalAlignment="Top">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26">
                                 <Label VerticalContentAlignment="Center">Update check frequency:</Label>
@@ -121,24 +121,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <Grid VerticalAlignment="Top" Margin="12,267,12,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="26" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="123*" />
-                            <ColumnDefinition Width="421*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Name="Label19" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="119" Grid.Column="0" Grid.Row="0">Clipboard Template :</Label>
-                        <TextBox Name="TbClipboardTemplate" Text="{Binding Path=Settings.ClipboardTemplate, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" VerticalContentAlignment="Center" Margin="0" Grid.Column="1" Grid.Row="0" />
-                        <TextBlock TextWrapping="Wrap" Foreground="{StaticResource InfoTextColorBrush}" Margin="0,8,0,0" Grid.Column="1" Grid.Row="1">This is the text that will be copied to the clipboard when you hit the "Copy to Clipboard" hotkey. "{0}" will be replaced with the name of the currently playing song.</TextBlock>
-                    </Grid>
-
-                    <CheckBox Name="CbSaveTrackToFile" IsChecked="{Binding Path=Settings.SaveTrackToFile, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,360,0,0" Height="21" VerticalContentAlignment="Center">Save Artist and Album to file when song changes (uses the clipboard template)</CheckBox>
-                    <Button Name="BtnSaveTrackToFile" Command="{Binding Path=SelectFileForSavingTrackCommand}" IsEnabled="{Binding IsChecked, ElementName=CbSaveTrackToFile}" Margin="37,385,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="8,4">Select File</Button>
-
-                    <CheckBox IsChecked="{Binding Path=Settings.OptInToAnalytics, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,430,0,0" Height="31">
+                    <CheckBox IsChecked="{Binding Path=Settings.OptInToAnalytics, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,322,0,0" Height="31">
                         <TextBlock TextWrapping="Wrap">Opt in to anonymous data collection.<LineBreak />
                             Data is never shared, is anonymous, and is used solely to improve the app.</TextBlock>
                     </CheckBox>
@@ -444,6 +427,26 @@
                             </StackPanel>
                         </TabItem>
                     </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Other" Name="TabOther">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid VerticalAlignment="Top" Margin="12,48,12,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="26" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="123*" />
+                            <ColumnDefinition Width="421*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Name="Label19" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="119" Grid.Column="0" Grid.Row="0">Clipboard Template :</Label>
+                        <TextBox Name="TbClipboardTemplate" Text="{Binding Path=Settings.ClipboardTemplate, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" VerticalContentAlignment="Center" Margin="0" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock TextWrapping="Wrap" Foreground="{StaticResource InfoTextColorBrush}" Margin="0,8,0,0" Grid.Column="1" Grid.Row="1">This is the text that will be copied to the clipboard when you hit the "Copy to Clipboard" hotkey. "{0}" will be replaced with the name of the currently playing song.</TextBlock>
+                    </Grid>
+
+                    <CheckBox Name="CbSaveTrackToFile" IsChecked="{Binding Path=Settings.SaveTrackToFile, Mode=TwoWay, Converter={StaticResource SettingValueToValueConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,142,0,0" Height="21" VerticalContentAlignment="Center">Save Artist and Album to file when song changes (uses the clipboard template)</CheckBox>
+                    <Button Name="BtnSaveTrackToFile" Command="{Binding Path=SelectFileForSavingTrackCommand}" IsEnabled="{Binding IsChecked, ElementName=CbSaveTrackToFile}" Margin="37,168,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="8,4">Select File</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Advanced" Name="TabAdvanced">

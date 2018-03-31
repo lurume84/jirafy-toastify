@@ -134,9 +134,6 @@ namespace Toastify.Model
         private SettingValue<float> _windowsVolumeMixerIncrement;
         private SettingValue<VersionCheckFrequency> _versionCheckFrequency;
         private SettingValue<UpdateDeliveryMode> _updateDeliveryMode;
-        private SettingValue<string> _clipboardTemplate;
-        private SettingValue<bool> _saveTrackToFile;
-        private SettingValue<string> _saveTrackToFilePath;
         private SettingValue<bool> _optInToAnalytics;
 
         private SettingValue<bool> _globalHotKeys;
@@ -194,6 +191,10 @@ namespace Toastify.Model
         private SettingValue<double> _toastTitle2ShadowBlur;
         private SettingValue<string> _songProgressBarBackgroundColor;
         private SettingValue<string> _songProgressBarForegroundColor;
+        
+        private SettingValue<string> _clipboardTemplate;
+        private SettingValue<bool> _saveTrackToFile;
+        private SettingValue<string> _saveTrackToFilePath;
 
         private SettingValue<bool> _useProxy;
         private ProxyConfigAdapter _proxyConfig;
@@ -298,26 +299,6 @@ namespace Toastify.Model
         {
             get { return this.GetSettingValue(ref this._updateDeliveryMode); }
             set { this.SetSettingValue(ref this._updateDeliveryMode, value); }
-        }
-
-        [DefaultValue("I'm currently listening to {0}")]
-        public SettingValue<string> ClipboardTemplate
-        {
-            get { return this.GetSettingValue(ref this._clipboardTemplate); }
-            set { this.SetSettingValue(ref this._clipboardTemplate, value); }
-        }
-
-        [DefaultValue(false)]
-        public SettingValue<bool> SaveTrackToFile
-        {
-            get { return this.GetSettingValue(ref this._saveTrackToFile); }
-            set { this.SetSettingValue(ref this._saveTrackToFile, value); }
-        }
-
-        public SettingValue<string> SaveTrackToFilePath
-        {
-            get { return this.GetSettingValue(ref this._saveTrackToFilePath); }
-            set { this.SetSettingValue(ref this._saveTrackToFilePath, value); }
         }
 
         [DefaultValue(true)]
@@ -583,6 +564,30 @@ namespace Toastify.Model
 
         #endregion [Toast]
 
+        #region [Other]
+
+        [DefaultValue("I'm currently listening to {0}")]
+        public SettingValue<string> ClipboardTemplate
+        {
+            get { return this.GetSettingValue(ref this._clipboardTemplate); }
+            set { this.SetSettingValue(ref this._clipboardTemplate, value); }
+        }
+
+        [DefaultValue(false)]
+        public SettingValue<bool> SaveTrackToFile
+        {
+            get { return this.GetSettingValue(ref this._saveTrackToFile); }
+            set { this.SetSettingValue(ref this._saveTrackToFile, value); }
+        }
+
+        public SettingValue<string> SaveTrackToFilePath
+        {
+            get { return this.GetSettingValue(ref this._saveTrackToFilePath); }
+            set { this.SetSettingValue(ref this._saveTrackToFilePath, value); }
+        }
+
+        #endregion
+
         #region [Advanced]
 
         [DefaultValue(false)]
@@ -722,10 +727,6 @@ namespace Toastify.Model
             this.VersionCheckFrequency = DefaultValueOf(this.VersionCheckFrequency, nameof(this.VersionCheckFrequency));
             this.UpdateDeliveryMode = DefaultValueOf(this.UpdateDeliveryMode, nameof(this.UpdateDeliveryMode));
 
-            this.ClipboardTemplate = DefaultValueOf(this.ClipboardTemplate, nameof(this.ClipboardTemplate));
-            this.SaveTrackToFile = DefaultValueOf(this.SaveTrackToFile, nameof(this.SaveTrackToFile));
-            this.SaveTrackToFilePath = Path.Combine(App.LocalApplicationData, "current_song.txt");
-
             this.OptInToAnalytics = DefaultValueOf(this.SaveTrackToFile, nameof(this.SaveTrackToFile));
         }
 
@@ -788,6 +789,13 @@ namespace Toastify.Model
 
             this.SongProgressBarBackgroundColor = new SettingValue<string>(DefaultValueOf(this.SongProgressBarBackgroundColor, nameof(this.SongProgressBarBackgroundColor)), s => regex4ChannelsColor.IsMatch(s));
             this.SongProgressBarForegroundColor = new SettingValue<string>(DefaultValueOf(this.SongProgressBarForegroundColor, nameof(this.SongProgressBarForegroundColor)), s => regex4ChannelsColor.IsMatch(s));
+        }
+
+        public void SetDefaultOther()
+        {
+            this.ClipboardTemplate = DefaultValueOf(this.ClipboardTemplate, nameof(this.ClipboardTemplate));
+            this.SaveTrackToFile = DefaultValueOf(this.SaveTrackToFile, nameof(this.SaveTrackToFile));
+            this.SaveTrackToFilePath = Path.Combine(App.LocalApplicationData, "current_song.txt");
         }
 
         public void SetDefaultAdvanced()
