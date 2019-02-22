@@ -1,0 +1,3 @@
+---
+layout: spotify/authorize
+---
