@@ -28,11 +28,11 @@ if (urlParams.has(PARAM_TOASTIFY_PORT) && urlParams.has(PARAM_REDIRECT_URL)) {
     window.location.replace(redirectUrl);
 } else if ((urlParams.has("code") || urlParams.has("error")) && urlParams.has("state")) {
     // Spotify redirect
-    var data = `state=${urlParams.has("state")}`;
+    var data = `state=${urlParams.get("state")}`;
     if (urlParams.has("code"))
-        data += `&code=${urlParams.has("code")}`;
+        data += `&code=${urlParams.get("code")}`;
     if (urlParams.has("error"))
-        data += `&error=${urlParams.has("error")}`;
+        data += `&error=${urlParams.get("error")}`;
 
     postData(`http://localhost:${window.localStorage.getItem(PARAM_TOASTIFY_PORT)}`, data)
         .then(response => console.log(JSON.stringify(response)))
