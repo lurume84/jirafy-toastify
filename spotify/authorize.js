@@ -1,24 +1,6 @@
 ﻿const PARAM_TOASTIFY_PORT = "toastifyPort";
 const PARAM_REDIRECT_URL = "redirectUrl";
 
-function postData(url = "", data = "") {
-    return fetch(url, {
-            method: "POST",
-            mode: "no-cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            redirect: "follow",
-            referrer: "no-referrer",
-            body: data
-        })
-        .then(response => response.json());
-}
-
-// ================
-
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has(PARAM_TOASTIFY_PORT) && urlParams.has(PARAM_REDIRECT_URL)) {
     // Save the port number Toastify is listening to in the browser's app storage
@@ -28,15 +10,23 @@ if (urlParams.has(PARAM_TOASTIFY_PORT) && urlParams.has(PARAM_REDIRECT_URL)) {
     window.location.replace(redirectUrl);
 } else if ((urlParams.has("code") || urlParams.has("error")) && urlParams.has("state")) {
     // Spotify redirect
-    var data = `state=${urlParams.get("state")}`;
-    if (urlParams.has("code"))
-        data += `&code=${urlParams.get("code")}`;
-    if (urlParams.has("error"))
-        data += `&error=${urlParams.get("error")}`;
-
-    postData(`http://localhost:${window.localStorage.getItem(PARAM_TOASTIFY_PORT)}`, data)
-        .then(response => console.log(JSON.stringify(response)))
-        .catch(error => console.error(error));
+    $.ajax({
+        url: `http://localhost:${window.localStorage.getItem(PARAM_TOASTIFY_PORT)}`,
+        method: "POST",
+        xhrFields: { "withCredentials": true },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: {
+            code: urlParams.get("code"),
+            state: urlParams.get("state"),
+            error: urlParams.get("error")
+        },
+        success: (res, textStatus, xhr) => {
+            if (xhr.status === 200)
+                window.location.replace("https://aleab.github.io/toastify/spotify/done");
+            else
+                console.error(xhr.status);
+        }
+    });
 } else {
     // ???
     console.error("???");
