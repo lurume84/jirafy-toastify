@@ -21,11 +21,12 @@ namespace ToastifyAPI
         /// </summary>
         private static readonly List<string> spotifyMainWindowNames = new List<string>
         {
-            "SpotifyMainWindow",
+            "Jirafy Viewer",
+            "DesktopApp",
             "Chrome_WidgetWin_0" // Since v1.0.75.483.g7ff4a0dc
         };
 
-        public static string ProcessName { get; } = "spotify";
+        public static string ProcessName { get; } = "jirafy";
 
         #endregion
 
@@ -39,7 +40,7 @@ namespace ToastifyAPI
             {
                 spotifyPath = GetSpotifyPath_common();
                 if (string.IsNullOrWhiteSpace(spotifyPath) || !File.Exists(spotifyPath))
-                    throw new FileNotFoundException("Could not find spotify executable", "Spotify.exe");
+                    throw new FileNotFoundException("Could not find spotify executable", "Jirafy.exe");
             }
 
             return spotifyPath;
@@ -48,26 +49,26 @@ namespace ToastifyAPI
         [CanBeNull]
         private static string GetSpotifyPath_common()
         {
-            string spotifyPath = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Spotify", string.Empty, string.Empty) as string;
+            string spotifyPath = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Jirafy Desktop", string.Empty, string.Empty) as string;
 
             // Try the Uninstall keys
             if (string.IsNullOrWhiteSpace(spotifyPath))
-                spotifyPath = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\Spotify", "InstallLocation", string.Empty) as string;
+                spotifyPath = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\Jirafy Desktop", "InstallLocation", string.Empty) as string;
 
             if (string.IsNullOrWhiteSpace(spotifyPath))
-                spotifyPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Spotify", "InstallLocation", string.Empty) as string;
+                spotifyPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Jirafy Desktop", "InstallLocation", string.Empty) as string;
 
             if (string.IsNullOrWhiteSpace(spotifyPath))
-                spotifyPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Spotify", "InstallLocation", string.Empty) as string;
+                spotifyPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Jirafy Desktop", "InstallLocation", string.Empty) as string;
 
-            return !string.IsNullOrWhiteSpace(spotifyPath) ? Path.Combine(spotifyPath, "Spotify.exe") : spotifyPath;
+            return !string.IsNullOrWhiteSpace(spotifyPath) ? Path.Combine(spotifyPath, "Jirafy.exe") : spotifyPath;
         }
 
         [CanBeNull]
         public static Process FindSpotifyProcess()
         {
             if (logger.IsDebugEnabled)
-                logger.Debug("Looking for Spotify process...");
+                logger.Debug("Looking for Jirafy process...");
 
             List<Process> spotifyProcesses = Process.GetProcessesByName(ProcessName).ToList();
             List<Process> windowedProcesses = spotifyProcesses.Where(p => p.MainWindowHandle != IntPtr.Zero).ToList();
